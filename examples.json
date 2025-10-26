@@ -1,0 +1,80 @@
+{
+  "Chains": {
+    "BTC": {
+      "Path": "m/84'/0'/0'/0",
+      "zpub": "zpub6tq4kQNZvSPy8Awxzq9i8RVaiQxQyhFd8mf1gRujwYCmsjLgXw8gvYp2vQYdFNPCD5x1pztWPKESJFKz1C8ueWzzqEpCJUqVUr3L9jqf1KF",
+      "PrivEnc": {
+        "alg": "AES-GCM",
+        "nonce": "5bbdb36e7d4cb09fe4f85dbf",
+        "ciphertext": "a249a9986c3e4efd1476edb20eea9cb1cbc231ded4170872f67a548d23c87d968209021c77f679aae17f444d4ed709ac206ca9b0b551ae144ee96a29377df480dbc12d150ce00e865cbe3d6507fb3990629b92fa721b3c2257b6a9c363788781e8a10b63607df1ab281c73f6e6f76431b6e95d76295435c9359ea7943b3c9c"
+      },
+      "Address": {
+        "extra": [
+          {
+            "index": 0,
+            "address": "bc1qvpm524yykwr5fc64gtw3rzmsxkxnj8jzyz3hdz",
+            "note": "主钱包收款地址"
+          }
+        ]
+      }
+    },
+    "ETH": {
+      "Path": "m/44'/60'/0'/0",
+      "xpub": "xpub6DfJdUVP2XZhFQvDRCLuLsBUYg61FgqJdgnRKb1Po9oZ3HBn6E6GAVDuZWtJ19FEghuZG7FzG3RdCgo1M8x5iJvc1wsGq5aSwdmLr9iV4T2",
+      "PrivEnc": {
+        "alg": "AES-GCM",
+        "nonce": "22095dcde771417cc3469da0",
+        "ciphertext": "d06dbc89351c18edaa50e31e1e1a5c7dae66f099417fc11aea50a387916f3eb4dbe052f4887d56540d171a33caf2547a18d6cbd400f05cd0bfa99970476182d5d0ed7fcc7b6413c694065c5e8efd3398d67e04ad61c4fb7d917e2786aaa3dc04804c699f62cd2f9ed19acda69784a184e1acb15f112b0302eb4298ce3fc5d1"
+      },
+      "Address": {
+        "extra": [
+          {
+            "index": 0,
+            "address": "0xAe1C22045Bf843abe46ff101A07EfF9aF5016Abf",
+            "note": "EVM 收款地址"
+          }
+        ]
+      }
+    },
+    "TRON": {
+      "Path": "m/44'/195'/0'/0",
+      "xpub": "xpub6Dcr9Wx5T9hWxQVVUEhgNKZN4Gj76g81N5W3aFZteL3U44JtXE1r9WBxe4hUZXV9PJuXWuqfExpB5vGmQyaRgy1hfY8Xao153E9AwQHoSVp",
+      "PrivEnc": {
+        "alg": "AES-GCM",
+        "nonce": "d2bd879393f405e3491316e5",
+        "ciphertext": "d2884c6eb43a814b9b0508e5650117d58bcb920b6b6565cb376ade28027f9c48545ea767fb805e653c5bf5b674b1f2d4f24b9c00220b983a01c6b9dcfbf62cf09120037ba30e1f62f70fa859a8940c1461ee2a789da134982974f5210555455fa5e9903de63d2f597e963ca4763ec03ebae2e8bb4b9acb1a03d7e9d48c4d3f"
+      },
+      "Address": {
+        "extra": [
+          {
+            "index": 0,
+            "address": "TUQLUCkAur93rwxCm9kTpXztcZKWavqns1"
+          }
+        ]
+      }
+    },
+    "EOS": {
+      "Path": "m/44'/194'/0'/0",
+      "xpub": "xpub6DrdWssn4mUqH654mLE9NZfhuHZZAb3aYSoGu1Vi9bM6zbpjGYKzeX14rDD58Rw9G3EDvEjx66Ge6YxuuqWzh1SGcAFdhj5hvWHHZizgLJh",
+      "PrivEnc": {
+        "alg": "AES-GCM",
+        "nonce": "e629c3947aecce0337e6f53a",
+        "ciphertext": "8670f9d43c7f8d7339b1bd8d002324c41094b9645f8411ccf7d6adec91e18f25978f9618546ea7fa60442463812bb21dbb115f19cec8e3e0e735fd65ace192e38813f17da38b5a5eacdf932b79320fb74f5f9504984e5abe701236d0fe0e26461bf57076014f5942d691df1b2e04f63d5cee78e9f2c77289e19137aef3f656"
+      },
+      "Address": {
+        "extra": [
+          {
+            "index": 0,
+            "PUB_Legacy": "EOS6L9iwPxsUeRD8P4Zv2KKqYjHTZZ34XKXX96XWUAtX9xkw6L6rS",
+            "PUB_K1": "PUB_K1_6L9iwPxsUeRD8P4Zv2KKqYjHTZZ34XKXX96XWUAtX9xkzttNxx"
+          }
+        ]
+      }
+    }
+  },
+  "KEKInfo": {
+    "salt": "0d0ec9f57617ba19e6f26f266928c3c38bcbb2b1e3a286a86c017aeeaac74b64",
+    "info": "wallet-priv-bundle-v1",
+    "credential_id": "dc76a66fada74a2c58b76b314ac8544fbcdd45593951494467f4ffe3ab08af3b5df4ac89450cc19441bb618828509176"
+  }
+}
