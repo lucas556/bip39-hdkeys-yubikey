@@ -285,6 +285,10 @@ class BIP32:
 MAINNET_VERS_XPRV = bytes.fromhex("0488ADE4")  # xprv
 MAINNET_VERS_XPUB = bytes.fromhex("0488B21E")  # xpub
 
+# BTC BIP84 (P2WPKH) → z*
+MAINNET_VERS_ZPRV = bytes.fromhex("04B2430C")  # zprv
+MAINNET_VERS_ZPUB = bytes.fromhex("04B24746")  # zpub
+
 @dataclass(frozen=True)
 class ExtendedKey:
     version_xprv: bytes = MAINNET_VERS_XPRV
@@ -332,14 +336,14 @@ class Wallet:
             # 允许传入 "44'/60'/0'/0" 这种，自动补 m/
             p = "m/" + p
         return p.replace("M/", "m/")
-
+    
     def node_xkeys(self, path: str) -> Dict[str, str]:
         path = self.normalize_path(path)
         priv, cc, resolved, depth, parent_fp, child_index = BIP32.derive_priv(
             self.master_priv, self.master_chain, path
         )
-        # 在该节点上序列化 xprv/xpub（无论最后是否硬化都可以）
-        xprv, xpub = ExtendedKey().serialize_pair(priv, cc, depth, parent_fp, child_index)
+        ek = ExtendedKey(version_xprv=MAINNET_VERS_XPRV, version_xpub=MAINNET_VERS_XPUB)
+        xprv, xpub = ek.serialize_pair(priv, cc, depth, parent_fp, child_index)
         return {"Path": resolved, "xprv": xprv, "xpub": xpub}
 
 
@@ -395,6 +399,21 @@ class Bech32:
         elif bits >= frombits or ((acc << (tobits - bits)) & maxv):
             return None
         return ret
+    
+
+    def _bc1_node_xkeys(wallet: "Wallet", path: str = "m/84'/0'/0'/0") -> dict:
+        """
+        专为 BTC BIP84 (zprv/zpub) 生成
+        不生成地址（地址由 XpubAddress.zpub2BTC 生成）。
+        """
+        path = wallet.normalize_path(path)
+        priv, cc, resolved, depth, parent_fp, child_index = BIP32.derive_priv(
+            wallet.master_priv, wallet.master_chain, path
+        )
+        # 使用 BIP84 (zprv/zpub)
+        ek = ExtendedKey(version_xprv=MAINNET_VERS_ZPRV, version_xpub=MAINNET_VERS_ZPUB)
+        zprv, zpub = ek.serialize_pair(priv, cc, depth, parent_fp, child_index)
+        return {"Path": resolved, "zprv": zprv, "zpub": zpub }
 
     # --------- 业务方法 ---------
 
@@ -403,7 +422,6 @@ class Bech32:
         if len(pub_compressed) != 33:
             pub_compressed = CC_PublicKey(pub_compressed).format(compressed=True)
         h160 = Crypto._ripemd160(Crypto.sha256(pub_compressed))
-        prog = h160
         data = [0] + cls.convertbits(h160, 8, 5, pad=True)
         return cls.encode(hrp, data)
 
@@ -422,12 +440,21 @@ class XpubAddress:
         return {"index": info["child_index"], "pubc": pubc, "pubc_hex": pubc.hex()}
     
     @classmethod
-    def _xpub2BTC(cls, xpub: str, index: int, *, testnet: bool = False) -> dict:
-        info = BIP32.decode_xpub(xpub, index=index)  # decode_xpub 会返回 child_pub
-        pubc = info["child_pub"]  # 33B 压缩公钥
+    def zpub2BTC(cls, xpub: str, index: int = 0) -> dict:
+        """
+        仅支持 BIP84 (zpub) → 生成 bech32 bc1 地址
+        """
+        raw = base58.b58decode_check(xpub)
+        if len(raw) != 78:
+            raise ValueError("Invalid xpub payload length.")
+        if raw[:4] != MAINNET_VERS_ZPUB:
+            raise ValueError("Expected BTC zpub (BIP84).")
+
+        info = BIP32.decode_xpub(xpub, index=index)
+        pubc = info["child_pub"]
         addr = Bech32.pub2p2wpkh(pubc, hrp="bc")
         return {"index": info["child_index"], "address": addr}
-
+    
     # ---------- ETH ----------
     @classmethod
     def eth(cls, xpub: str, index: int) -> dict:
